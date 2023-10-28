@@ -1,11 +1,11 @@
-CREATE TABLE staff (staff_id INT,
+CREATE TABLE Staff (staff_id INT,
                     name VARCHAR(30),
                     salary INT,
                     email VARCHAR(30),
                     birthday DATE,
                     jobtitle_id INT);
 
-INSERT INTO staff (staff_id,name,salary,email,birthday,jobtitle_id)
+INSERT INTO Staff (staff_id, name, salary, email, birthday, jobtitle_id)
 VALUES
 (1, 'Иванов Сергей', 100000, 'test@test.ru', '1990.03.03', 1),
 (2, 'Петров Пётр', 60000, 'petr@test.ru', '2000.12.01', 7),
@@ -14,7 +14,7 @@ VALUES
 (5, 'Попов Иван', 120000, 'popov@test.ru', '2001.04.25', 5);
 
 CREATE TABLE Jobtitles (jobtitle_id INT PRIMARY KEY AUTO_INCREMENT,
-name VARCHAR(30));
+                        name VARCHAR(30));
 
 INSERT INTO Jobtitles(name)
 VALUES
@@ -26,18 +26,21 @@ VALUES
 ('Инженер тестирования'),
 ('Сотрудник группы поддержки');
 
-SELECT * FROM staff
-WHERE email IN (SELECT email FROM staff
-             GROUP BY email
-             HAVING COUNT(email)>1
+SELECT * FROM Staff
+WHERE email IN
+(
+    SELECT email FROM Staff
+    GROUP BY email
+    HAVING COUNT(email) > 1
 );
 
-SELECT name, TIMESTAMPDIFF(YEAR, birthday , CURDATE()) AS age FROM staff;
+SELECT name, TIMESTAMPDIFF(YEAR, birthday , CURDATE()) AS age FROM Staff;
 
 SELECT name FROM Jobtitles
-WHERE Jobtitles.jobtitle_id=(
-    SELECT jobtitle_id FROM staff
-    ORDER BY staff.salary DESC
+WHERE jobtitle_id =
+(
+    SELECT jobtitle_id FROM Staff
+    ORDER BY salary DESC
     LIMIT 1,1
 );
 
